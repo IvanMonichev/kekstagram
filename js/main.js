@@ -37,7 +37,8 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ]
 
-const COUNT_COMMENT = 4;
+const COMMENT_COUNT = 4;
+const PHOTOS_COUNT = 25
 
 /* Utility */
 
@@ -115,7 +116,7 @@ const createImage = (index, comments) => {
 
 const generateImagesList = (countImages) => {
   const listImages = [];
-  const randomUsersIdList = getRandomListId(1, 250, COUNT_COMMENT);
+  const randomUsersIdList = getRandomListId(1, 250, COMMENT_COUNT);
 
   for (let i = 0; i < countImages; i++) {
     const comments = randomUsersIdList.map((index) => createComment(index, randomUsersIdList[index]));
@@ -125,6 +126,6 @@ const generateImagesList = (countImages) => {
   return listImages;
 }
 
-const imagesList = generateImagesList(25);
+const imagesList = generateImagesList(PHOTOS_COUNT);
 
 console.log(imagesList);
