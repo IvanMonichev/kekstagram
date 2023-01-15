@@ -1,6 +1,6 @@
 'use strict';
 
-import { NAMES, MESSAGES, COMMENT_COUNT, PHOTOS_COUNT, COUNT_COMMENTS } from './constans.js';
+import { NAMES, MESSAGES, COMMENTS_COUNT, PHOTOS_COUNT, COUNT_COMMENTS } from './constans.js';
 import { getRandomInteger } from './utils.js';
 
 
@@ -32,7 +32,7 @@ const getRandomMessage = (countMessages) => {
   return listMessage.join(' ');
 };
 
-const createComment = (index, userId) => {
+const createComment = (userId) => {
 
   const randomAvatarNumber = getRandomInteger(1, 6);
   const randomNameNumber = getRandomInteger(0, NAMES.length - 1);
@@ -62,10 +62,10 @@ const createImage = (index, comments) => {
 
 const generateImagesList = (countImages) => {
   const listImages = [];
-  const randomUsersIdList = getRandomListId(1, 250, COMMENT_COUNT);
 
   for (let i = 0; i < countImages; i++) {
-    const comments = randomUsersIdList.map((index) => createComment(index, randomUsersIdList[index]));
+    const randomUsersIdList = getRandomListId(1, 250, getRandomInteger(COMMENTS_COUNT.MIN, COMMENTS_COUNT.MAX));
+    const comments = randomUsersIdList.map((index) => createComment(randomUsersIdList[index]));
     listImages[i] = createImage(i, comments);
   }
 

@@ -33,7 +33,10 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const COMMENT_COUNT = 4;
+const COMMENTS_COUNT = {
+  MIN: 1,
+  MAX: 6,
+};
 const PHOTOS_COUNT = 25;
 
 const COUNT_COMMENTS = {
@@ -44,7 +47,7 @@ const COUNT_COMMENTS = {
 export {
   NAMES,
   MESSAGES,
-  COMMENT_COUNT,
+  COMMENTS_COUNT,
   PHOTOS_COUNT,
   COUNT_COMMENTS
 }
