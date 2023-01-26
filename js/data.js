@@ -1,7 +1,7 @@
 'use strict';
 
 import { NAMES, MESSAGES, COMMENTS_COUNT, PHOTOS_COUNT, COUNT_COMMENTS } from './constans.js';
-import { getRandomInteger } from './utils.js';
+import { getRandomInteger } from './util.js';
 
 
 const getRandomListId = (min, max, count) => {
@@ -74,6 +74,4 @@ const generateImagesList = (countImages) => {
 
 const imagesList = generateImagesList(PHOTOS_COUNT);
 
-export {
-  imagesList
-}
+export { imagesList }
