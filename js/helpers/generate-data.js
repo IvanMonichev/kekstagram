@@ -1,6 +1,6 @@
 'use strict';
 
-import { NAMES, MESSAGES, COMMENTS_COUNT, PHOTOS_COUNT, COUNT_COMMENTS } from './constans.js';
+import { NAMES, MESSAGES, COMMENTS_COUNT, PHOTOS_COUNT, COUNT_COMMENTS } from '../constants/constans.js';
 import { getRandomInteger } from './util.js';
 
 
@@ -33,7 +33,6 @@ const getRandomMessage = (countMessages) => {
 };
 
 const createComment = (userId) => {
-
   const randomAvatarNumber = getRandomInteger(1, 6);
   const randomNameNumber = getRandomInteger(0, NAMES.length - 1);
   const randomCountMessages = getRandomInteger(COUNT_COMMENTS.MIN, COUNT_COMMENTS.MAX);
@@ -41,7 +40,7 @@ const createComment = (userId) => {
 
   return {
     id: userId,
-    avatar: `img/avatar-${randomAvatarNumber}.jpg`,
+    avatar: `img/avatar-${randomAvatarNumber}.svg`,
     message,
     name: NAMES[randomNameNumber],
   }
@@ -65,7 +64,10 @@ const generateImagesList = (countImages) => {
 
   for (let i = 0; i < countImages; i++) {
     const randomUsersIdList = getRandomListId(1, 250, getRandomInteger(COMMENTS_COUNT.MIN, COMMENTS_COUNT.MAX));
-    const comments = randomUsersIdList.map((index) => createComment(randomUsersIdList[index]));
+
+    const comments = randomUsersIdList.map((item, index) => {
+      return createComment(randomUsersIdList[index])
+    });
     listImages[i] = createImage(i, comments);
   }
 

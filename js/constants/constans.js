@@ -44,10 +44,24 @@ const COUNT_COMMENTS = {
   MAX: 2,
 }
 
+const BIG_PICTURE_CONFIG = {
+  bigPictureSelector: '.big-picture',
+  bigPictureImageSelector: '.big-picture__img img',
+  likesCountSelector: '.likes-count',
+  commentsCountSelector: '.comments-count',
+  socialCommentSelector: '.social__comment',
+  socialListCommentSelector: '.social__comments',
+  socialCaptionSelector: '.social__caption',
+  closeButtonSelector: '.big-picture__cancel',
+  socialCommentCountSelector: '.social__comment-count',
+  commentsLoaderSelector: '.comments-loader',
+}
+
 export {
   NAMES,
   MESSAGES,
   COMMENTS_COUNT,
   PHOTOS_COUNT,
-  COUNT_COMMENTS
+  COUNT_COMMENTS,
+  BIG_PICTURE_CONFIG
 }

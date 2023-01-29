@@ -1,4 +1,5 @@
-import { imagesList } from './data.js';
+import { imagesList } from '../helpers/generate-data.js';
+import { setEventListener } from './open-picture.js';
 
 const pictureTemplate = document.querySelector('#picture').content;
 const pictureSelector = '.picture';
@@ -19,6 +20,7 @@ const generateElement = (item) => {
   likesElement.textContent = item.likes;
   commentsElement.textContent = item.comments.length;
 
+  setEventListener(element, item);
   return element;
 }
 

@@ -1,1 +1,1 @@
-import './render-items.js';
+import './modules/render-items.js';
