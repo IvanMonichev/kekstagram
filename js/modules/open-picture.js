@@ -1,19 +1,13 @@
 import { BIG_PICTURE_CONFIG } from '../constants/constans.js';
 const bigPictureElement = document.querySelector(BIG_PICTURE_CONFIG.bigPictureSelector);
 const closeButtonElement = document.querySelector(BIG_PICTURE_CONFIG.closeButtonSelector);
-import { openMoadl, closeModal } from './openPopup.js';
+import { openModal, closeModal } from '../helpers/toggle-popup.js';
 
 
 const closePicture = () => {
   closeButtonElement.removeEventListener('click', closePicture);
   closeButtonElement.removeEventListener('keydown', closePicture)
   closeModal(bigPictureElement);
-}
-
-const handleEscClose = (evt) => {
-  if (evt.key === 'Escape') {
-    closePicture();
-  }
 }
 
 const generateComment = (commentItem) => {
@@ -59,15 +53,12 @@ const generatePicture = (item) => {
   socialCaptionElement.textContent = item.description;
   socialCommentCountElement.classList.add('hidden');
   commentsLoaderElement.classList.add('hidden');
-
-  closeButtonElement.addEventListener('click', closePicture);
-  document.addEventListener('keydown', handleEscClose)
 };
 
 const openPicture = (item) => {
   return () => {
     generatePicture(item);
-    openMoadl(bigPictureElement);
+    openModal(bigPictureElement, closeButtonElement);
   }
 }
 
