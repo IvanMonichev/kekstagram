@@ -6,7 +6,7 @@ const resetButtonElement = document.querySelector('.img-upload__cancel');
 
 
 const openEditForm = () => {
-  openModal(editFormElement, resetButtonElement);
+  openModal(editFormElement, resetButtonElement, fileInputElement);
 }
 
-fileInputElement.addEventListener('input', openEditForm);
+fileInputElement.addEventListener('change', openEditForm);

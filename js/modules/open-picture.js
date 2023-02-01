@@ -1,13 +1,12 @@
 import { BIG_PICTURE_CONFIG } from '../constants/constans.js';
 const bigPictureElement = document.querySelector(BIG_PICTURE_CONFIG.bigPictureSelector);
 const closeButtonElement = document.querySelector(BIG_PICTURE_CONFIG.closeButtonSelector);
-import { openModal, closeModal } from '../helpers/toggle-popup.js';
+import { openModal } from '../helpers/toggle-popup.js';
 
 
 const closePicture = () => {
   closeButtonElement.removeEventListener('click', closePicture);
   closeButtonElement.removeEventListener('keydown', closePicture)
-  closeModal(bigPictureElement);
 }
 
 const generateComment = (commentItem) => {
