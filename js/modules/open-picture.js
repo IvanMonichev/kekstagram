@@ -1,13 +1,13 @@
 import { BIG_PICTURE_CONFIG } from '../constants/constans.js';
 const bigPictureElement = document.querySelector(BIG_PICTURE_CONFIG.bigPictureSelector);
 const closeButtonElement = document.querySelector(BIG_PICTURE_CONFIG.closeButtonSelector);
-const bodyElement = document.querySelector('body')
+import { openMoadl, closeModal } from './openPopup.js';
+
 
 const closePicture = () => {
-  closeButtonElement.removeEventListener('click', closePicture)
+  closeButtonElement.removeEventListener('click', closePicture);
   closeButtonElement.removeEventListener('keydown', closePicture)
-  bigPictureElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
+  closeModal(bigPictureElement);
 }
 
 const handleEscClose = (evt) => {
@@ -59,7 +59,6 @@ const generatePicture = (item) => {
   socialCaptionElement.textContent = item.description;
   socialCommentCountElement.classList.add('hidden');
   commentsLoaderElement.classList.add('hidden');
-  bodyElement.classList.add('modal-open')
 
   closeButtonElement.addEventListener('click', closePicture);
   document.addEventListener('keydown', handleEscClose)
@@ -68,7 +67,7 @@ const generatePicture = (item) => {
 const openPicture = (item) => {
   return () => {
     generatePicture(item);
-    bigPictureElement.classList.remove('hidden');
+    openMoadl(bigPictureElement);
   }
 }
 
