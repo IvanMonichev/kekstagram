@@ -7,7 +7,8 @@ const resetButtonElement = document.querySelector('.img-upload__cancel');
 const imageUploadScaleFieldset = editFormElement.querySelector('.img-upload__scale');
 const scaleControlValueElement = imageUploadScaleFieldset.querySelector('.scale__control--value');
 const imageUploadPreview = document.querySelector('.img-upload__preview');
-
+const imagePreviewElement = imageUploadPreview.querySelector('img');
+const effectsItemElements = document.querySelectorAll('.effects__item');
 
 const changeSize = (evt) => {
   const step = 25;
@@ -30,9 +31,24 @@ const handleScaleControlImage = () => {
   imageUploadScaleFieldset.addEventListener('click', changeSize);
 }
 
+const changeEffect = (evt) => {
+  if (evt.target.matches('.effects__radio')) {
+    imagePreviewElement.className = '';
+    imagePreviewElement.classList.add(`effects__preview--${evt.target.value}`);
+  }
+
+}
+
+const handleEffectImage = () => {
+  effectsItemElements.forEach(item =>
+    item.addEventListener('click', changeEffect));
+}
+
 const openEditForm = () => {
   openModal(editFormElement, resetButtonElement, fileInputElement);
   handleScaleControlImage();
+  handleEffectImage();
+
 }
 
 fileInputElement.addEventListener('input', openEditForm);
