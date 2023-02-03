@@ -3,12 +3,24 @@ import { MAX_IMAGE_SIZE_VALUE, MIN_IMAGE_SIZE_VALUE, STANDARD_IMAGE_SIZE_VALUE }
 
 const fileInputElement = document.querySelector('#upload-file');
 const editFormElement = document.querySelector('.img-upload__overlay');
-const resetButtonElement = document.querySelector('.img-upload__cancel');
+const imageUploadPreview = editFormElement.querySelector('.img-upload__preview');
+const resetButtonElement = editFormElement.querySelector('.img-upload__cancel');
 const imageUploadScaleFieldset = editFormElement.querySelector('.img-upload__scale');
-const scaleControlValueElement = imageUploadScaleFieldset.querySelector('.scale__control--value');
-const imageUploadPreview = document.querySelector('.img-upload__preview');
+const scaleControlValueElement = editFormElement.querySelector('.scale__control--value');
 const imagePreviewElement = imageUploadPreview.querySelector('img');
 const effectsItemElements = document.querySelectorAll('.effects__item');
+const sliderElement = document.querySelector('.effect-level__slider');
+const effectLevelValue = document.querySelector('.effect-level__value');
+
+/* Инициализация слайдера */
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100,
+  },
+  start: 80,
+})
+
 
 const changeSize = (evt) => {
   const step = 25;
@@ -31,10 +43,33 @@ const handleScaleControlImage = () => {
   imageUploadScaleFieldset.addEventListener('click', changeSize);
 }
 
+const setEffect = () => {
+  return function (effectsRadioElement) {
+    console.log(effectsRadioElement)
+    switch (effectsRadioElement.value) {
+      case 'chrome':
+        sliderElement.noUiSlider.updateOptions({
+          range: {
+            min: 0,
+            max: 1,
+          },
+          step: 0.1,
+        })
+        imagePreviewElement.style.filter = `grayscale(${effectsRadioElement.value})`;
+        console.log('work')
+        break;
+    }
+  }
+}
+
 const changeEffect = (evt) => {
   if (evt.target.matches('.effects__radio')) {
     imagePreviewElement.className = '';
     imagePreviewElement.classList.add(`effects__preview--${evt.target.value}`);
+    const effectsRadioElement = evt.target
+    effectLevelValue.addEventListener('input', () => {
+
+    })
   }
 
 }
@@ -44,11 +79,20 @@ const handleEffectImage = () => {
     item.addEventListener('click', changeEffect));
 }
 
+const handleChangeSlider = () => {
+  effectLevelValue.value = 80;
+
+  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
+    effectLevelValue.value = unencoded[handle];
+    console.log(effectLevelValue.value)
+  });
+}
+
 const openEditForm = () => {
   openModal(editFormElement, resetButtonElement, fileInputElement);
   handleScaleControlImage();
   handleEffectImage();
-
+  handleChangeSlider();
 }
 
 fileInputElement.addEventListener('input', openEditForm);
