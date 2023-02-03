@@ -11,15 +11,7 @@ const imagePreviewElement = imageUploadPreview.querySelector('img');
 const effectsItemElements = document.querySelectorAll('.effects__item');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
-
-/* Инициализация слайдера */
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 80,
-})
+const effectLavelWrapper = document.querySelector('.img-upload__effect-level');
 
 
 const changeSize = (evt) => {
@@ -43,22 +35,90 @@ const handleScaleControlImage = () => {
   imageUploadScaleFieldset.addEventListener('click', changeSize);
 }
 
-const setEffect = () => {
-  return function (effectsRadioElement) {
-    console.log(effectsRadioElement)
-    switch (effectsRadioElement.value) {
-      case 'chrome':
-        sliderElement.noUiSlider.updateOptions({
-          range: {
-            min: 0,
-            max: 1,
-          },
-          step: 0.1,
-        })
-        imagePreviewElement.style.filter = `grayscale(${effectsRadioElement.value})`;
-        console.log('work')
-        break;
-    }
+/* Инициализация слайдера */
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100,
+  },
+  start: 100,
+});
+
+const removeSlider = () => {
+  effectLavelWrapper.classList.add('hidden');
+  imagePreviewElement.removeAttribute('class');
+  imagePreviewElement.removeAttribute('style');
+}
+
+const handleChangeSlider = (filterValue, suffix = 0) => {
+  effectLevelValue.value = filterValue;
+
+  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
+    effectLevelValue.value = unencoded[handle];
+    imagePreviewElement.style.filter = `${filterValue}(${unencoded[handle] + suffix})`;
+  });
+}
+
+const setEffect = (evt) => {
+  if (effectLavelWrapper.classList.contains('hidden')) {
+    effectLavelWrapper.classList.remove('hidden');
+  }
+
+  switch (evt.target.value) {
+    case 'chrome':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        step: 0.1,
+      })
+      handleChangeSlider('grayscale');
+      break;
+    case 'sepia':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        step: 0.1,
+      })
+      handleChangeSlider('sepia');
+      break;
+    case 'marvin':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      })
+      handleChangeSlider('invert', '%');
+      break;
+    case 'phobos':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        step: 0.1,
+      })
+      handleChangeSlider('blur', 'px');
+      break;
+    case 'heat':
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: 1,
+          max: 3,
+        },
+        step: 0.1,
+      })
+      handleChangeSlider('brightness');
+      break;
+    case 'none':
+      removeSlider();
+      break;
   }
 }
 
@@ -66,12 +126,8 @@ const changeEffect = (evt) => {
   if (evt.target.matches('.effects__radio')) {
     imagePreviewElement.className = '';
     imagePreviewElement.classList.add(`effects__preview--${evt.target.value}`);
-    const effectsRadioElement = evt.target
-    effectLevelValue.addEventListener('input', () => {
-
-    })
+    setEffect(evt);
   }
-
 }
 
 const handleEffectImage = () => {
@@ -79,20 +135,12 @@ const handleEffectImage = () => {
     item.addEventListener('click', changeEffect));
 }
 
-const handleChangeSlider = () => {
-  effectLevelValue.value = 80;
-
-  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
-    effectLevelValue.value = unencoded[handle];
-    console.log(effectLevelValue.value)
-  });
-}
 
 const openEditForm = () => {
+  removeSlider();
   openModal(editFormElement, resetButtonElement, fileInputElement);
   handleScaleControlImage();
   handleEffectImage();
-  handleChangeSlider();
 }
 
 fileInputElement.addEventListener('input', openEditForm);
