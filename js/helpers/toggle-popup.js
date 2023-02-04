@@ -1,3 +1,5 @@
+import { isKeyEscape } from './util.js';
+
 const bodyElement = document.querySelector('body')
 
 const closeModal = (modalElement, closeButtonElement, inputElement) => {
@@ -21,7 +23,7 @@ const openModal = (modalElement, closeButtonElement, inputElement = undefined) =
 }
 
 const handleEscClose = (evt, modalElement, closeButtonElement, inputElement) => {
-  if (evt.key === 'Escape') {
+  if (isKeyEscape(evt.key)) {
     closeModal(modalElement, closeButtonElement, inputElement);
   }
 }

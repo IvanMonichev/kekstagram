@@ -1,3 +1,8 @@
+const Keys = {
+  ESC: 'Esc',
+  ESCAPE: 'Escape',
+}
+
 const getRandomInteger = (min, max) => {
   if (min < 0 || max < 0) {
     return -1;
@@ -13,4 +18,7 @@ const getRandomInteger = (min, max) => {
 
 const checkLength = (string, maxLength) => string.length <= maxLength;
 
-export { getRandomInteger }
+const isKeyEscape = (key) => key === Keys.ESCAPE || key === Keys.ESC;
+
+export { getRandomInteger, isKeyEscape }
+

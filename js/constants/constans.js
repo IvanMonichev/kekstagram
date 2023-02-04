@@ -57,6 +57,13 @@ const BIG_PICTURE_CONFIG = {
   commentsLoaderSelector: '.comments-loader',
 }
 
+const Scale = {
+  MAX: 100,
+  MIN: 25,
+  STEP: 25,
+  STANDARD: 100,
+}
+
 const STANDARD_IMAGE_SIZE_VALUE = 100;
 const MIN_IMAGE_SIZE_VALUE = 25;
 const MAX_IMAGE_SIZE_VALUE = 100;
@@ -68,7 +75,5 @@ export {
   PHOTOS_COUNT,
   COUNT_COMMENTS,
   BIG_PICTURE_CONFIG,
-  STANDARD_IMAGE_SIZE_VALUE,
-  MIN_IMAGE_SIZE_VALUE,
-  MAX_IMAGE_SIZE_VALUE
+  Scale,
 }

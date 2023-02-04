@@ -1,5 +1,5 @@
 import { openModal } from '../helpers/toggle-popup.js';
-import { MAX_IMAGE_SIZE_VALUE, MIN_IMAGE_SIZE_VALUE, STANDARD_IMAGE_SIZE_VALUE } from '../constants/constans.js';
+import { Scale } from '../constants/constans.js';
 
 const fileInputElement = document.querySelector('#upload-file');
 const editFormElement = document.querySelector('.img-upload__overlay');
@@ -15,14 +15,13 @@ const effectLavelWrapper = document.querySelector('.img-upload__effect-level');
 
 
 const changeSize = (evt) => {
-  const step = 25;
   let valueElement = Number(scaleControlValueElement.value.slice(0, -1));
 
   if (evt.target.matches('.scale__control--smaller')) {
-    valueElement > MIN_IMAGE_SIZE_VALUE ? valueElement -= step : valueElement = MIN_IMAGE_SIZE_VALUE;
+    valueElement > Scale.MIN ? valueElement -= Scale.STEP : valueElement = Scale.MIN;
   }
   if (evt.target.matches('.scale__control--bigger')) {
-    valueElement < MAX_IMAGE_SIZE_VALUE ? valueElement += step : valueElement = MAX_IMAGE_SIZE_VALUE;
+    valueElement < Scale.MAX ? valueElement += Scale.STEP : valueElement = Scale.MAX;
   }
 
   imageUploadPreview.style.transform = `scale(${valueElement * 0.01}`;
@@ -31,7 +30,7 @@ const changeSize = (evt) => {
 }
 
 const handleScaleControlImage = () => {
-  scaleControlValueElement.value = STANDARD_IMAGE_SIZE_VALUE + '%';
+  scaleControlValueElement.value = Scale.STANDARD + '%';
   imageUploadScaleFieldset.addEventListener('click', changeSize);
 }
 
