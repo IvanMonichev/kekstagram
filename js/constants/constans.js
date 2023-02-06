@@ -34,8 +34,8 @@ const MESSAGES = [
 ];
 
 const COMMENTS_COUNT = {
-  MIN: 1,
-  MAX: 6,
+  MIN: 14,
+  MAX: 15,
 };
 const PHOTOS_COUNT = 25;
 

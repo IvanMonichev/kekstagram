@@ -1,6 +1,6 @@
 import { isKeyEscape } from './util.js';
 
-const bodyElement = document.querySelector('body')
+const bodyElement = document.querySelector('body');
 
 const closeModal = (modalElement, closeButtonElement, inputElement) => {
   modalElement.classList.add('hidden');
@@ -10,6 +10,7 @@ const closeModal = (modalElement, closeButtonElement, inputElement) => {
     inputElement.value = '';
     console.log('Поле успешно очистилось.')
   }
+
 }
 
 const openModal = (modalElement, closeButtonElement, inputElement = undefined) => {

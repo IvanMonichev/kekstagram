@@ -1,13 +1,12 @@
 import { BIG_PICTURE_CONFIG } from '../constants/constans.js';
 const bigPictureElement = document.querySelector(BIG_PICTURE_CONFIG.bigPictureSelector);
 const closeButtonElement = document.querySelector(BIG_PICTURE_CONFIG.closeButtonSelector);
-import { openModal } from '../helpers/toggle-popup.js';
-
-
-const closePicture = () => {
-  closeButtonElement.removeEventListener('click', closePicture);
-  closeButtonElement.removeEventListener('keydown', closePicture)
-}
+const countCommentsAll = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.commentsCountSelector);
+const countCommentsShown = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialCommentCountSelector);
+const socialListCommentsElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialListCommentSelector);
+const commentsLoader = bigPictureElement.querySelector('.social__comments-loader');
+const bodyElement = document.querySelector('body');
+let temp;
 
 const generateComment = (commentItem) => {
   const socialComment = document.createElement('li');
@@ -35,29 +34,80 @@ const renderComments = (parentElement, commentItems) => {
   });
 };
 
+// const initComment = (comments, countPart) => {
+//
+//   const partComments = [...comments].slice(0, countPart * 5);
+//   countCommentsShown.textContent = partComments;
+//
+//   return partComments;
+// }
+
+
+
+const addComments = (counter, comments) => {
+  console.log(counter)
+
+  socialListCommentsElement.innerHTML = '';
+  const partComments = comments.slice(0, counter * 5);
+  countCommentsShown.innerHTML = `${partComments.length} из <span class="comments-count">${comments.length}</span> комментариев`;
+  console.log(partComments)
+  renderComments(socialListCommentsElement, partComments);
+  if (partComments.length === comments.length) {
+    commentsLoader.classList.add('hidden');
+  }
+}
+
+
 const generatePicture = (item) => {
+
   const bigPictureImageElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.bigPictureImageSelector);
   const likesCountElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.likesCountSelector);
-  const commentsCountElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.commentsCountSelector);
-  const socialListCommentsElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialListCommentSelector);
   const socialCaptionElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialCaptionSelector);
-  const socialCommentCountElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialCommentCountSelector);
-  const commentsLoaderElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.commentsLoaderSelector);
 
   bigPictureImageElement.src = item.url;
-  likesCountElement.textContent = item.likes
-  commentsCountElement.textContent = item.comments.length;
+  likesCountElement.textContent = item.likes;
+  commentsLoader.classList.add('hidden');
+
   socialListCommentsElement.innerHTML = '';
-  renderComments(socialListCommentsElement, item.comments);
+  if (item.comments.length > 5) {
+    let counter = 1;
+    commentsLoader.classList.remove('hidden');
+    countCommentsShown.innerHTML = `5 из <span class="comments-count">${item.comments.length}</span> комментариев`;
+
+    commentsLoader.addEventListener('click', temp = () => {
+      counter++;
+      addComments(counter, item.comments)
+    });
+
+  } else {
+    countCommentsShown.innerHTML = `${item.comments.length} комментария`;
+  }
+
+  renderComments(socialListCommentsElement, item.comments.slice(0, 5));
+
   socialCaptionElement.textContent = item.description;
-  socialCommentCountElement.classList.add('hidden');
-  commentsLoaderElement.classList.add('hidden');
 };
 
+const closePicture = (modalElement, item, counter) => {
+  console.log(item)
+  modalElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+  commentsLoader.removeEventListener('click', temp);
+}
+
+
 const openPicture = (item) => {
+
   return () => {
-    generatePicture(item);
-    openModal(bigPictureElement, closeButtonElement);
+    let counter = 1;
+    generatePicture(item, counter);
+
+    bigPictureElement.classList.remove('hidden');
+    bodyElement.classList.add('modal-open');
+
+
+    closeButtonElement.addEventListener('click', () =>
+      closePicture(bigPictureElement, item, counter), { once: true });
   }
 }
 
@@ -65,4 +115,4 @@ const setEventListener = (element, item) => {
   element.addEventListener('click', openPicture(item));
 }
 
-export { setEventListener }
+export { setEventListener, addComments }
