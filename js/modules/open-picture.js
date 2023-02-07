@@ -1,4 +1,5 @@
 import { BIG_PICTURE_CONFIG } from '../constants/constans.js';
+import { isKeyEscape } from '../helpers/util.js';
 const bigPictureElement = document.querySelector(BIG_PICTURE_CONFIG.bigPictureSelector);
 const closeButtonElement = document.querySelector(BIG_PICTURE_CONFIG.closeButtonSelector);
 const countCommentsAll = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.commentsCountSelector);
@@ -34,23 +35,13 @@ const renderComments = (parentElement, commentItems) => {
   });
 };
 
-// const initComment = (comments, countPart) => {
-//
-//   const partComments = [...comments].slice(0, countPart * 5);
-//   countCommentsShown.textContent = partComments;
-//
-//   return partComments;
-// }
-
 
 
 const addComments = (counter, comments) => {
-  console.log(counter)
 
   socialListCommentsElement.innerHTML = '';
   const partComments = comments.slice(0, counter * 5);
   countCommentsShown.innerHTML = `${partComments.length} из <span class="comments-count">${comments.length}</span> комментариев`;
-  console.log(partComments)
   renderComments(socialListCommentsElement, partComments);
   if (partComments.length === comments.length) {
     commentsLoader.classList.add('hidden');
@@ -88,13 +79,18 @@ const generatePicture = (item) => {
   socialCaptionElement.textContent = item.description;
 };
 
-const closePicture = (modalElement, item, counter) => {
-  console.log(item)
+
+const closePicture = (modalElement) => {
   modalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   commentsLoader.removeEventListener('click', temp);
 }
 
+const handleEscClose = (evt, modalElement) => {
+  if (isKeyEscape(evt.key)) {
+    closePicture(modalElement);
+  }
+}
 
 const openPicture = (item) => {
 
@@ -104,7 +100,8 @@ const openPicture = (item) => {
 
     bigPictureElement.classList.remove('hidden');
     bodyElement.classList.add('modal-open');
-
+    document.addEventListener('keydown', (evt) =>
+      handleEscClose(evt, bigPictureElement), { once: true });
 
     closeButtonElement.addEventListener('click', () =>
       closePicture(bigPictureElement, item, counter), { once: true });

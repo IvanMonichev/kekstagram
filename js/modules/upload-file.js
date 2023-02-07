@@ -1,5 +1,6 @@
-import { openModal } from '../helpers/toggle-popup.js';
+import {closeModal, openModal} from '../helpers/toggle-popup.js';
 import { Scale } from '../constants/constans.js';
+import {isKeyEscape} from '../helpers/util.js';
 
 const fileInputElement = document.querySelector('#upload-file');
 const editFormElement = document.querySelector('.img-upload__overlay');
@@ -12,6 +13,7 @@ const effectsItemElements = document.querySelectorAll('.effects__item');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectLavelWrapper = document.querySelector('.img-upload__effect-level');
+const bodyElement = document.querySelector('body');
 
 
 const changeSize = (evt) => {
@@ -135,9 +137,33 @@ const handleEffectImage = () => {
 }
 
 
+const handleEscClose = (evt, modalElement, inputElement) => {
+  if (isKeyEscape(evt.key)) {
+    closeForm(modalElement, inputElement);
+  }
+}
+
+const closeForm = (modalElement, inputElement) => {
+  modalElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+  inputElement.value = '';
+}
+
+const openForm = (modalElement, closeButtonElement, inputElement) => {
+  modalElement.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
+
+  closeButtonElement.addEventListener('click', () =>
+    closeForm(modalElement, inputElement), { once: true });
+  document.addEventListener('keydown', (evt) =>
+    handleEscClose(evt, modalElement, inputElement), { once: true });
+}
+
+
 const openEditForm = () => {
   removeSlider();
-  openModal(editFormElement, resetButtonElement, fileInputElement);
+  openForm(editFormElement, resetButtonElement, fileInputElement);
+
   handleScaleControlImage();
   handleEffectImage();
 }
