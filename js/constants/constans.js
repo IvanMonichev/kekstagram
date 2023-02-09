@@ -68,6 +68,8 @@ const STANDARD_IMAGE_SIZE_VALUE = 100;
 const MIN_IMAGE_SIZE_VALUE = 25;
 const MAX_IMAGE_SIZE_VALUE = 100;
 
+const API_URL = 'https://25.javascript.pages.academy/kekstagram/data';
+
 export {
   NAMES,
   MESSAGES,
@@ -76,4 +78,5 @@ export {
   MESSAGES_COMMENTS_COUNT,
   BIG_PICTURE_CONFIG,
   Scale,
+  API_URL
 }

@@ -35,8 +35,6 @@ const renderComments = (parentElement, commentItems) => {
   });
 };
 
-
-
 const addComments = (counter, comments) => {
 
   socialListCommentsElement.innerHTML = '';
@@ -47,7 +45,6 @@ const addComments = (counter, comments) => {
     commentsLoader.classList.add('hidden');
   }
 }
-
 
 const generatePicture = (item) => {
 
