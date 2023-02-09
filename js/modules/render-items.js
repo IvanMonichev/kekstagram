@@ -1,5 +1,6 @@
-import { imagesList } from '../helpers/generate-data.js';
 import { setEventListener } from './open-picture.js';
+import { getData } from '../helpers/api.js';
+import { showError } from '../helpers/util.js';
 
 const pictureTemplate = document.querySelector('#picture').content;
 const pictureSelector = '.picture';
@@ -32,5 +33,10 @@ const renderElements = (list) => {
   }
 }
 
-const successElements = renderElements(imagesList)
-successElements(picturesElement);
+// const successElements = renderElements(imagesList)
+// successElements(picturesElement);
+
+getData((result) => {
+  const successElements = renderElements(result);
+  successElements(picturesElement);
+}, showError);

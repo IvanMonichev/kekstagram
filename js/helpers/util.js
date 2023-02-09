@@ -1,3 +1,5 @@
+import { TOOLTIP_SHOW_TIME } from '../constants/constans.js'
+
 const Keys = {
   ESC: 'Esc',
   ESCAPE: 'Escape',
@@ -20,5 +22,18 @@ const checkLength = (string, maxLength) => string.length <= maxLength;
 
 const isKeyEscape = (key) => key === Keys.ESCAPE || key === Keys.ESC;
 
-export { getRandomInteger, isKeyEscape }
+const showError = (content) => {
+  const errorTooltipEl = document.querySelector('.error-tooltip');
+  errorTooltipEl.querySelector('p').textContent = content;
+  errorTooltipEl.classList.add('error-tooltip--is-active');
+  setTimeout(() => {
+    errorTooltipEl.classList.remove('error-tooltip--is-active');
+  }, TOOLTIP_SHOW_TIME);
+}
+
+export {
+  getRandomInteger,
+  isKeyEscape,
+  showError,
+}
 

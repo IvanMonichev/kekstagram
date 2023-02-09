@@ -2,7 +2,6 @@ import { BIG_PICTURE_CONFIG } from '../constants/constans.js';
 import { isKeyEscape } from '../helpers/util.js';
 const bigPictureElement = document.querySelector(BIG_PICTURE_CONFIG.bigPictureSelector);
 const closeButtonElement = document.querySelector(BIG_PICTURE_CONFIG.closeButtonSelector);
-const countCommentsAll = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.commentsCountSelector);
 const countCommentsShown = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialCommentCountSelector);
 const socialListCommentsElement = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialListCommentSelector);
 const commentsLoader = bigPictureElement.querySelector('.social__comments-loader');
