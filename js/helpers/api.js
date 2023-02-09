@@ -1,30 +1,32 @@
-import { API_URL } from '../constants/constans.js';
+import { Urls } from '../constants/constans.js';
 
 const handleError = (response, onFail) => {
   return response.ok ? response.json() : onFail('Произошла ошибка');
 }
 
-const createPhoto = (formData, onSuccess, onFail) => {
-  return fetch(
-    API_URL,
+const sendPhoto = (formData, onSuccess, onFail) => {
+  fetch(
+    Urls.POST,
     {
       method: 'POST',
       body: formData,
     },
   )
-    .then((response) =>
-      handleError(
-        response,
-        onFail('Не удалось отправить форму. Попробуйте ещё раз'),
-      ))
-    .catch((err) => {
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      }
+    })
+
+    .catch(() => {
       onFail('Не удалось отправить форму. Попробуйте ещё раз');
-      console.error(err);
     })
 }
 
 const getData = (onSuccess, onFail) => {
-  fetch(API_URL + '/dat')
+  fetch(Urls.GET)
     .then((response) =>
       handleError(
         response,
@@ -37,5 +39,6 @@ const getData = (onSuccess, onFail) => {
 }
 
 export {
+  sendPhoto,
   getData,
 }

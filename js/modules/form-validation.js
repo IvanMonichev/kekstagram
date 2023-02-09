@@ -6,7 +6,6 @@ const descriptionArea = document.querySelector('.text__description');
 
 const handleCustomValidity = (evt) => {
   hashtagsInput.setCustomValidity('');
-
   // === Валидация хештега ===
   const textList = evt.target.value.toLowerCase().trim().split(' ');
 

@@ -10,7 +10,6 @@ const closeModal = (modalElement, closeButtonElement, inputElement) => {
     inputElement.value = '';
     console.log('Поле успешно очистилось.')
   }
-
 }
 
 const openModal = (modalElement, closeButtonElement, inputElement = undefined) => {

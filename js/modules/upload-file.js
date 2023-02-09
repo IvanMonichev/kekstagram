@@ -1,43 +1,46 @@
-import {closeModal, openModal} from '../helpers/toggle-popup.js';
 import { Scale } from '../constants/constans.js';
-import {isKeyEscape} from '../helpers/util.js';
+import { isKeyEscape, showErrorNotification } from '../helpers/util.js';
+import { sendPhoto } from '../helpers/api.js';
+import { showError, showSuccess } from './tooltip.js'
 
-const fileInputElement = document.querySelector('#upload-file');
-const editFormElement = document.querySelector('.img-upload__overlay');
-const imageUploadPreview = editFormElement.querySelector('.img-upload__preview');
-const resetButtonElement = editFormElement.querySelector('.img-upload__cancel');
-const imageUploadScaleFieldset = editFormElement.querySelector('.img-upload__scale');
-const scaleControlValueElement = editFormElement.querySelector('.scale__control--value');
-const imagePreviewElement = imageUploadPreview.querySelector('img');
-const effectsItemElements = document.querySelectorAll('.effects__item');
-const sliderElement = document.querySelector('.effect-level__slider');
+const fileInputEl = document.querySelector('#upload-file');
+const editFormEl = document.querySelector('.img-upload__overlay');
+const imageUploadPreview = editFormEl.querySelector('.img-upload__preview');
+const resetButtonEl = editFormEl.querySelector('.img-upload__cancel');
+const imageUploadScaleFieldset = editFormEl.querySelector('.img-upload__scale');
+const scaleControlValueEl = editFormEl.querySelector('.scale__control--value');
+const imagePreviewEl = imageUploadPreview.querySelector('img');
+const effectsItemEls = document.querySelectorAll('.effects__item');
+const sliderEl = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectLavelWrapper = document.querySelector('.img-upload__effect-level');
-const bodyElement = document.querySelector('body');
+const bodyEl = document.querySelector('body');
+const imgUploadEl = document.querySelector('.img-upload__form');
+const uploadLabelEl = document.querySelector('.img-upload__label');
 
 
 const changeSize = (evt) => {
-  let valueElement = Number(scaleControlValueElement.value.slice(0, -1));
+  let valueEl = Number(scaleControlValueEl.value.slice(0, -1));
 
   if (evt.target.matches('.scale__control--smaller')) {
-    valueElement > Scale.MIN ? valueElement -= Scale.STEP : valueElement = Scale.MIN;
+    valueEl > Scale.MIN ? valueEl -= Scale.STEP : valueEl = Scale.MIN;
   }
   if (evt.target.matches('.scale__control--bigger')) {
-    valueElement < Scale.MAX ? valueElement += Scale.STEP : valueElement = Scale.MAX;
+    valueEl < Scale.MAX ? valueEl += Scale.STEP : valueEl = Scale.MAX;
   }
 
-  imageUploadPreview.style.transform = `scale(${valueElement * 0.01}`;
+  imageUploadPreview.style.transform = `scale(${valueEl * 0.01}`;
 
-  scaleControlValueElement.value = valueElement + '%';
+  scaleControlValueEl.value = valueEl + '%';
 }
 
 const handleScaleControlImage = () => {
-  scaleControlValueElement.value = Scale.STANDARD + '%';
+  scaleControlValueEl.value = Scale.STANDARD + '%';
   imageUploadScaleFieldset.addEventListener('click', changeSize);
 }
 
 /* Инициализация слайдера */
-noUiSlider.create(sliderElement, {
+noUiSlider.create(sliderEl, {
   range: {
     min: 0,
     max: 100,
@@ -47,16 +50,16 @@ noUiSlider.create(sliderElement, {
 
 const removeSlider = () => {
   effectLavelWrapper.classList.add('hidden');
-  imagePreviewElement.removeAttribute('class');
-  imagePreviewElement.removeAttribute('style');
+  imagePreviewEl.removeAttribute('class');
+  imagePreviewEl.removeAttribute('style');
 }
 
 const handleChangeSlider = (filterValue, suffix = 0) => {
   effectLevelValue.value = filterValue;
 
-  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
+  sliderEl.noUiSlider.on('update', (_, handle, unencoded) => {
     effectLevelValue.value = unencoded[handle];
-    imagePreviewElement.style.filter = `${filterValue}(${unencoded[handle] + suffix})`;
+    imagePreviewEl.style.filter = `${filterValue}(${unencoded[handle] + suffix})`;
   });
 }
 
@@ -67,7 +70,7 @@ const setEffect = (evt) => {
 
   switch (evt.target.value) {
     case 'chrome':
-      sliderElement.noUiSlider.updateOptions({
+      sliderEl.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 1,
@@ -77,7 +80,7 @@ const setEffect = (evt) => {
       handleChangeSlider('grayscale');
       break;
     case 'sepia':
-      sliderElement.noUiSlider.updateOptions({
+      sliderEl.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 1,
@@ -87,7 +90,7 @@ const setEffect = (evt) => {
       handleChangeSlider('sepia');
       break;
     case 'marvin':
-      sliderElement.noUiSlider.updateOptions({
+      sliderEl.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 100,
@@ -98,7 +101,7 @@ const setEffect = (evt) => {
       handleChangeSlider('invert', '%');
       break;
     case 'phobos':
-      sliderElement.noUiSlider.updateOptions({
+      sliderEl.noUiSlider.updateOptions({
         range: {
           min: 0,
           max: 3,
@@ -108,7 +111,7 @@ const setEffect = (evt) => {
       handleChangeSlider('blur', 'px');
       break;
     case 'heat':
-      sliderElement.noUiSlider.updateOptions({
+      sliderEl.noUiSlider.updateOptions({
         range: {
           min: 1,
           max: 3,
@@ -125,47 +128,67 @@ const setEffect = (evt) => {
 
 const changeEffect = (evt) => {
   if (evt.target.matches('.effects__radio')) {
-    imagePreviewElement.className = '';
-    imagePreviewElement.classList.add(`effects__preview--${evt.target.value}`);
+    imagePreviewEl.className = '';
+    imagePreviewEl.classList.add(`effects__preview--${evt.target.value}`);
     setEffect(evt);
   }
 }
 
 const handleEffectImage = () => {
-  effectsItemElements.forEach(item =>
+  effectsItemEls.forEach(item =>
     item.addEventListener('click', changeEffect));
 }
 
 
-const handleEscClose = (evt, modalElement, inputElement) => {
+const handleEscClose = (evt, modalEl, inputEl) => {
   if (isKeyEscape(evt.key)) {
-    closeForm(modalElement, inputElement);
+    closeForm(modalEl, inputEl);
   }
 }
 
-const closeForm = (modalElement, inputElement) => {
-  modalElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-  inputElement.value = '';
+const closeForm = (modalEl) => {
+  modalEl.classList.add('hidden');
+  bodyEl.classList.remove('modal-open');
+  imgUploadEl.reset();
 }
 
-const openForm = (modalElement, closeButtonElement, inputElement) => {
-  modalElement.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
+const openForm = (modalEl, closeButtonEl, inputEl) => {
+  modalEl.classList.remove('hidden');
+  bodyEl.classList.add('modal-open');
 
-  closeButtonElement.addEventListener('click', () =>
-    closeForm(modalElement, inputElement), { once: true });
+  closeButtonEl.addEventListener('click', () =>
+    closeForm(modalEl), { once: true });
   document.addEventListener('keydown', (evt) =>
-    handleEscClose(evt, modalElement, inputElement), { once: true });
+    handleEscClose(evt, modalEl, inputEl), { once: true });
 }
-
 
 const openEditForm = () => {
   removeSlider();
-  openForm(editFormElement, resetButtonElement, fileInputElement);
+  openForm(editFormEl, resetButtonEl, fileInputEl);
 
   handleScaleControlImage();
   handleEffectImage();
 }
 
-fileInputElement.addEventListener('input', openEditForm);
+const handleDataSending = (evt) => {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+  sendPhoto(
+    formData,
+    () => {
+      closeForm(editFormEl);
+      showSuccess();
+      uploadLabelEl.remove();
+    },
+    () => {
+      closeForm(editFormEl);
+      showErrorNotification,
+      showError();
+    })
+}
+
+imgUploadEl.addEventListener('submit', handleDataSending)
+fileInputEl.addEventListener('input', openEditForm);
+
+

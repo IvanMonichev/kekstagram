@@ -22,7 +22,7 @@ const checkLength = (string, maxLength) => string.length <= maxLength;
 
 const isKeyEscape = (key) => key === Keys.ESCAPE || key === Keys.ESC;
 
-const showError = (content) => {
+const showErrorNotification = (content) => {
   const errorTooltipEl = document.querySelector('.error-tooltip');
   errorTooltipEl.querySelector('p').textContent = content;
   errorTooltipEl.classList.add('error-tooltip--is-active');
@@ -34,6 +34,6 @@ const showError = (content) => {
 export {
   getRandomInteger,
   isKeyEscape,
-  showError,
+  showErrorNotification,
 }
 

@@ -1,6 +1,6 @@
 import { setEventListener } from './open-picture.js';
 import { getData } from '../helpers/api.js';
-import { showError } from '../helpers/util.js';
+import { showErrorNotification } from '../helpers/util.js';
 
 const pictureTemplate = document.querySelector('#picture').content;
 const pictureSelector = '.picture';
@@ -39,4 +39,4 @@ const renderElements = (list) => {
 getData((result) => {
   const successElements = renderElements(result);
   successElements(picturesElement);
-}, showError);
+}, showErrorNotification);

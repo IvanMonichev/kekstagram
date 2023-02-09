@@ -1419,6 +1419,7 @@ main {
 .error-tooltip--is-active {
   visibility: visible;
   opacity: 1;
+  z-index: 9999;
 }
 
 .error-tooltip::before {
