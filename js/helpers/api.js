@@ -1,4 +1,4 @@
-import { API_URL } from '../constants/constans';
+import { API_URL } from '../constants/constans.js';
 
 const createPhoto = (formData, onSuccess, onFail) => {
   return fetch(
