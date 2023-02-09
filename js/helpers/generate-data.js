@@ -1,6 +1,6 @@
 'use strict';
 
-import { NAMES, MESSAGES, COMMENTS_COUNT, PHOTOS_COUNT, COUNT_COMMENTS } from '../constants/constans.js';
+import { NAMES, MESSAGES, COMMENTS_COUNT, PHOTOS_COUNT, MESSAGES_COMMENTS_COUNT } from '../constants/constans.js';
 import { getRandomInteger } from './util.js';
 
 
@@ -35,7 +35,7 @@ const getRandomMessage = (countMessages) => {
 const createComment = (userId) => {
   const randomAvatarNumber = getRandomInteger(1, 6);
   const randomNameNumber = getRandomInteger(0, NAMES.length - 1);
-  const randomCountMessages = getRandomInteger(COUNT_COMMENTS.MIN, COUNT_COMMENTS.MAX);
+  const randomCountMessages = getRandomInteger(MESSAGES_COMMENTS_COUNT.MIN, MESSAGES_COMMENTS_COUNT.MAX);
   const message = getRandomMessage(randomCountMessages);
 
   return {
