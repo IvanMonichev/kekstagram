@@ -17,8 +17,6 @@ const handleCustomValidity = (evt) => {
 
   if (!isHashtag) {
     hashtagsInput.setCustomValidity('Хэш-тег должен начинаться с символа \'#\' и не содержать спец. символов');
-  } else {
-    hashtagsInput.setCustomValidity('');
   }
 
   const isOnlyHash = textList.some(item => item === '#');
@@ -39,7 +37,7 @@ const handleCustomValidity = (evt) => {
     hashtagsInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
   }
 
-  // === Валидация комментария
+  hashtagsInput.reportValidity();
 
 }
 
@@ -52,6 +50,5 @@ const cancelEscClose = (evt) => {
 hashtagsInput.addEventListener('input', handleCustomValidity);
 hashtagsInput.addEventListener('keydown', cancelEscClose);
 descriptionArea.addEventListener('keydown', cancelEscClose);
-
 
 
