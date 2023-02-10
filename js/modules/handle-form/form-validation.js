@@ -1,4 +1,4 @@
-import { isKeyEscape } from '../helpers/util.js';
+import { isKeyEscape } from '../../helpers/util.js';
 
 const hashtagsInput = document.querySelector('.text__hashtags');
 const descriptionArea = document.querySelector('.text__description');

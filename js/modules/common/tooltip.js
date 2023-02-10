@@ -1,4 +1,4 @@
-import { isKeyEscape } from '../helpers/util.js';
+import { isKeyEscape } from '../../helpers/util.js';
 
 const successTemplate = document.querySelector('#success').content;
 const errorTemplate = document.querySelector('#error').content;

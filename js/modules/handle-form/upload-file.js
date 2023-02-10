@@ -1,7 +1,7 @@
-import { Scale } from '../constants/constans.js';
-import { isKeyEscape, showErrorNotification } from '../helpers/util.js';
-import { sendPhoto } from '../helpers/api.js';
-import { showError, showSuccess } from './tooltip.js'
+import { Scale } from '../../constants/constans.js';
+import { isKeyEscape, showErrorNotification } from '../../helpers/util.js';
+import { sendPhoto } from '../../helpers/api.js';
+import { showError, showSuccess } from '../common/tooltip.js'
 
 const fileInputEl = document.querySelector('#upload-file');
 const editFormEl = document.querySelector('.img-upload__overlay');

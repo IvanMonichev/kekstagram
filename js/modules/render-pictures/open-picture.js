@@ -1,5 +1,5 @@
-import { BIG_PICTURE_CONFIG } from '../constants/constans.js';
-import { isKeyEscape } from '../helpers/util.js';
+import { BIG_PICTURE_CONFIG } from '../../constants/constans.js';
+import { isKeyEscape } from '../../helpers/util.js';
 const bigPictureElement = document.querySelector(BIG_PICTURE_CONFIG.bigPictureSelector);
 const closeButtonElement = document.querySelector(BIG_PICTURE_CONFIG.closeButtonSelector);
 const countCommentsShown = bigPictureElement.querySelector(BIG_PICTURE_CONFIG.socialCommentCountSelector);

@@ -1,6 +1,6 @@
 import { setEventListener } from './open-picture.js';
-import { getData } from '../helpers/api.js';
-import { showErrorNotification } from '../helpers/util.js';
+import { getData } from '../../helpers/api.js';
+import { showErrorNotification } from '../../helpers/util.js';
 
 const pictureTemplate = document.querySelector('#picture').content;
 const pictureSelector = '.picture';
@@ -33,10 +33,8 @@ const renderElements = (list) => {
   }
 }
 
-// const successElements = renderElements(imagesList)
-// successElements(picturesElement);
-
 getData((result) => {
   const successElements = renderElements(result);
   successElements(picturesElement);
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 }, showErrorNotification);

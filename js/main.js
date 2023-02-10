@@ -1,3 +1,3 @@
-import './modules/render-items.js';
-import './modules/upload-file.js'
-import './modules/form-validation.js';
+import './modules/render-pictures/render-pictures.js';
+import './modules/handle-form/upload-file.js'
+import './modules/handle-form/form-validation.js';
