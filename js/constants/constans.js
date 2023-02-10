@@ -64,16 +64,17 @@ const Scale = {
   STANDARD: 100,
 }
 
-const STANDARD_IMAGE_SIZE_VALUE = 100;
-const MIN_IMAGE_SIZE_VALUE = 25;
-const MAX_IMAGE_SIZE_VALUE = 100;
-
 const Urls = {
   GET:'https://25.javascript.pages.academy/kekstagram/data',
   POST:'https://25.javascript.pages.academy/kekstagram',
 };
 
 const TOOLTIP_SHOW_TIME = 5000;
+
+const Keys = {
+  ESC: 'Esc',
+  ESCAPE: 'Escape',
+}
 
 export {
   NAMES,
@@ -84,5 +85,6 @@ export {
   BIG_PICTURE_CONFIG,
   Scale,
   Urls,
+  Keys,
   TOOLTIP_SHOW_TIME
 }
