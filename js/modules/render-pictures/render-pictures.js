@@ -1,6 +1,7 @@
 import { setEventListener } from './open-picture.js';
 import { getData } from '../../helpers/api.js';
 import { showErrorNotification } from '../../helpers/util.js';
+import { getDiscussedPictures, getRandomPictures } from './filters-pictures.js';
 
 const pictureTemplate = document.querySelector('#picture').content;
 const pictureSelector = '.picture';
@@ -33,8 +34,35 @@ const renderElements = (list) => {
   }
 }
 
+const removePictures = () => {
+  const pictureElements = [...document.querySelectorAll('.picture')];
+  pictureElements.forEach((picture) => picture.remove());
+  const imageFiltersForm = document.querySelector('.img-filters__form');
+  [...imageFiltersForm.children].forEach((element) => element.classList.remove('img-filters__button--active'));
+}
+
+const handlePictureRendering = (evt, pictures) => {
+  removePictures();
+  evt.target.classList.add('img-filters__button--active');
+  const successElements = renderElements(pictures);
+  successElements(picturesElement);
+}
+
+const setEventListeners = (pictures) => {
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+  const btnFilterRandom = document.querySelector('#filter-random');
+  const btnFilterDiscussed = document.querySelector('#filter-discussed');
+  const btnFilterDefault = document.querySelector('#filter-default');
+
+  btnFilterDefault.addEventListener('click', (evt) => handlePictureRendering(evt, pictures));
+  btnFilterRandom.addEventListener('click', (evt) => handlePictureRendering(evt, getRandomPictures(pictures, 10)));
+  btnFilterDiscussed.addEventListener('click', (evt) => handlePictureRendering(evt, getDiscussedPictures(pictures)));
+
+}
+
 getData((result) => {
   const successElements = renderElements(result);
   successElements(picturesElement);
-  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+  setEventListeners(result);
 }, showErrorNotification);
+
