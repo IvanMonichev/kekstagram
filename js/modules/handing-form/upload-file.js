@@ -18,6 +18,7 @@ const bodyEl = document.querySelector('body');
 const imgUploadEl = document.querySelector('.img-upload__form');
 const uploadLabelEl = document.querySelector('.img-upload__label');
 const imagePreview = imageUploadPreview.querySelector('img');
+const effectsPreviewElements = editFormEl.querySelectorAll('.effects__preview');
 
 
 const changeSize = (evt) => {
@@ -164,6 +165,9 @@ const openForm = (modalEl, closeButtonEl, inputEl) => {
 
   if (matches) {
     imagePreview.src = URL.createObjectURL(file);
+    Array.from(effectsPreviewElements).forEach((item) => {
+      item.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+    })
   }
 
   closeButtonEl.addEventListener('click', () =>
