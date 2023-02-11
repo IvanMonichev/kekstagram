@@ -1,4 +1,4 @@
-import { Scale } from '../../constants/constans.js';
+import { FILE_TYPES, Scale } from '../../constants/constans.js';
 import { isKeyEscape, showErrorNotification } from '../../helpers/util.js';
 import { sendPhoto } from '../../helpers/api.js';
 import { showError, showSuccess } from '../common/tooltip.js'
@@ -17,6 +17,7 @@ const effectLavelWrapper = document.querySelector('.img-upload__effect-level');
 const bodyEl = document.querySelector('body');
 const imgUploadEl = document.querySelector('.img-upload__form');
 const uploadLabelEl = document.querySelector('.img-upload__label');
+const imagePreview = imageUploadPreview.querySelector('img');
 
 
 const changeSize = (evt) => {
@@ -139,7 +140,6 @@ const handleEffectImage = () => {
     item.addEventListener('click', changeEffect));
 }
 
-
 const handleEscClose = (evt, modalEl, inputEl) => {
   if (isKeyEscape(evt.key)) {
     closeForm(modalEl, inputEl);
@@ -155,6 +155,16 @@ const closeForm = (modalEl) => {
 const openForm = (modalEl, closeButtonEl, inputEl) => {
   modalEl.classList.remove('hidden');
   bodyEl.classList.add('modal-open');
+  const file = fileInputEl.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => {
+    return fileName.endsWith(it);
+  });
+
+  if (matches) {
+    imagePreview.src = URL.createObjectURL(file);
+  }
 
   closeButtonEl.addEventListener('click', () =>
     closeForm(modalEl), { once: true });

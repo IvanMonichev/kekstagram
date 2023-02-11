@@ -74,7 +74,9 @@ const TOOLTIP_SHOW_TIME = 5000;
 const Keys = {
   ESC: 'Esc',
   ESCAPE: 'Escape',
-}
+};
+
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 export {
   NAMES,
@@ -86,5 +88,6 @@ export {
   Scale,
   Urls,
   Keys,
-  TOOLTIP_SHOW_TIME
+  TOOLTIP_SHOW_TIME,
+  FILE_TYPES
 }
