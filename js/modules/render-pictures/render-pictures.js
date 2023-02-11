@@ -1,6 +1,6 @@
 import { setEventListener } from './open-picture.js';
 import { getData } from '../../helpers/api.js';
-import { showErrorNotification } from '../../helpers/util.js';
+import { debounce, showErrorNotification } from '../../helpers/util.js';
 import { getDiscussedPictures, getRandomPictures } from './filters-pictures.js';
 
 const pictureTemplate = document.querySelector('#picture').content;
@@ -54,9 +54,9 @@ const setEventListeners = (pictures) => {
   const btnFilterDiscussed = document.querySelector('#filter-discussed');
   const btnFilterDefault = document.querySelector('#filter-default');
 
-  btnFilterDefault.addEventListener('click', (evt) => handlePictureRendering(evt, pictures));
-  btnFilterRandom.addEventListener('click', (evt) => handlePictureRendering(evt, getRandomPictures(pictures, 10)));
-  btnFilterDiscussed.addEventListener('click', (evt) => handlePictureRendering(evt, getDiscussedPictures(pictures)));
+  btnFilterDefault.addEventListener('click', debounce((evt) => handlePictureRendering(evt, pictures)));
+  btnFilterRandom.addEventListener('click', debounce((evt) => handlePictureRendering(evt, getRandomPictures(pictures, 10))));
+  btnFilterDiscussed.addEventListener('click', debounce((evt) => handlePictureRendering(evt, getDiscussedPictures(pictures))));
 
 }
 
