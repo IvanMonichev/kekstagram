@@ -1,12 +1,7 @@
 {
   "name": "kekstagram",
-  "version": "22.0.0",
-  "private": true,
+  "version": "1.0.0",
   "description": "Личный проект Ивана Моничева от HTML Academy",
-  "repository": {
-    "type": "git",
-    "url": "{{sshUrl}}"
-  },
   "devDependencies": {
     "browser-sync": "2.26.14",
     "eslint": "7.18.0",
