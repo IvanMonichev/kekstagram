@@ -2,6 +2,7 @@ import { isKeyEscape } from '../../helpers/util.js';
 
 const successTemplate = document.querySelector('#success').content;
 const errorTemplate = document.querySelector('#error').content;
+const messagesTemplate = document.querySelector('#messages').content;
 
 const closeSuccess = (element) => {
   element.remove();
@@ -31,4 +32,16 @@ export const showError = () => {
   successButtonEl.addEventListener('click', () => closeSuccess(errorsEl));
   document.addEventListener('keydown', (evt) => handleEscClose(evt, errorsEl));
   document.querySelector('body').appendChild(errorsEl);
+}
+
+
+export const showLoading = () => {
+  const messagesExemplar = messagesTemplate.cloneNode(true);
+  const messagesEl = messagesExemplar.querySelector('.img-upload__message');
+
+  document.querySelector('body').appendChild(messagesEl);
+}
+
+export const hideLoading = () => {
+  document.querySelector('.img-upload__message').remove();
 }

@@ -1,7 +1,7 @@
 import { FILE_TYPES, Scale } from '../../constants/constans.js';
 import { isKeyEscape, showErrorNotification } from '../../helpers/util.js';
 import { sendPhoto } from '../../helpers/api.js';
-import { showError, showSuccess } from '../common/tooltip.js'
+import { hideLoading, showError, showLoading, showSuccess } from '../common/tooltip.js'
 
 const fileInputEl = document.querySelector('#upload-file');
 const editFormEl = document.querySelector('.img-upload__overlay');
@@ -188,17 +188,20 @@ const handleDataSending = (evt) => {
   evt.preventDefault();
 
   const formData = new FormData(evt.target);
+  showLoading()
   sendPhoto(
     formData,
     () => {
       closeForm(editFormEl);
       showSuccess();
       uploadLabelEl.remove();
+      hideLoading()
     },
     () => {
       closeForm(editFormEl);
       showErrorNotification,
       showError();
+      hideLoading()
     })
 }
 
